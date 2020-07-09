@@ -33,7 +33,7 @@
 import Web3 from "web3";
 import BlogBackend from "../../script/backend/blog";
 import ContractDetails from "../static/ABI/blog";
-import blogimg from "../static/blog1.png";
+import blogimg from "../static/images/blog3.jpg";
 var web3;
 var blogBackend;
 export default {

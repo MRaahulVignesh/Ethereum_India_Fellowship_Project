@@ -3,6 +3,11 @@
     <b-navbar toggleable sticky type="dark" variant="dark">
       <b-navbar-brand href="#">Menu Control</b-navbar-brand>
 
+      <b-nav-form class="ml-auto mr-4">
+          <b-form-input size="sm" class="mr-sm-0" placeholder="Search"></b-form-input>
+          <b-button size="sm" class="my-0 my-sm-0" type="submit" >Search</b-button>
+        </b-nav-form>
+
       <b-navbar-toggle target="navbar-toggle-collapse">
         <template v-slot:default="{ expanded }">
           <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>

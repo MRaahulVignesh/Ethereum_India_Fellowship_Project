@@ -5,6 +5,7 @@ const Web3 = require('web3');
 // require('dotenv').config();
 // const config = require('../../truffle-config');
 const DaiDetails = require('../../src/static/ABI/dai');
+const cryptoJS = require('crypto-js');
 
 class Subscriptions {
 
@@ -13,16 +14,15 @@ class Subscriptions {
         this.contractInstance = new this.web3.eth.Contract(contractAbi, contractAddress);
         this.contractAddress = contractAddress;
         this.erc20Instance = new this.web3.eth.Contract(DaiDetails.abi, this.web3.utils.toChecksumAddress(DaiDetails.contractAddress));
-        this.tokenIdCount = 7;
     }
 
     //addSubscription() public validUser returns(bool)
     async addSubscription(fromAddress) {
         try{
             console.log(fromAddress);
+            const tokenId = this.getTokenId(fromAddress);
             const approveResult = await this.erc20Instance.methods.approve(this.contractAddress, "10000000000000000000").send({ from: fromAddress });
-            const receipt = await this.contractInstance.methods.addSubscription(this.tokenIdCount).send({from: fromAddress});
-            this.tokenIdCount++;
+            const receipt = await this.contractInstance.methods.addSubscription(tokenId).send({from: fromAddress});
             return receipt;
         }catch(e){
             console.log(e);
@@ -50,6 +50,15 @@ class Subscriptions {
             console.log(e);
             return false;
         }
+    }
+
+    //Helper funtion for getTokenId
+    getTokenId(_fromAddress) {
+        var timestamp = Date.now();
+        var message = timestamp.toString() + _fromAddress.toString();
+        var hash = cryptoJS.SHA3(message,{outputLength: 128}).toString();
+        hash = "0x" + hash;
+        return hash;
     }
 
 }
