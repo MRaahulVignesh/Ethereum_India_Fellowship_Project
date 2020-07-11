@@ -20,20 +20,27 @@ Firstly, clone the project into your desired directory. Next, open the terminal 
 
 ### Screen Shots
 
+1. Home Screen
+
 ![](images/Screenshot-1.png)
 
+2. Login & Metmask integration
 
 ![](images/Screenshot-6.png)
 
+3. Blog Posts Screen
 
 ![](images/Screenshot-2.png)
 
+4. Profile Screen
 
 ![](images/Screenshot-3.png)
 
+5. Add Blog Screen
 
 ![](images/Screenshot-4.png)
 
+6. Article Screen
 
 ![](images/Screenshot-5.png)
 
