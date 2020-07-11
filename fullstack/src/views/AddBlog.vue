@@ -3,14 +3,12 @@
     <div>
       <b-navbar toggleable sticky type="dark" variant="dark">
         <b-navbar-brand href="#">Add Blog</b-navbar-brand>
-
         <b-navbar-toggle target="navbar-toggle-collapse">
           <template v-slot:default="{ expanded }">
             <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
             <b-icon v-else icon="chevron-bar-down"></b-icon>
           </template>
         </b-navbar-toggle>
-
         <b-collapse id="navbar-toggle-collapse" is-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item href="/profile">Profile</b-nav-item>
@@ -20,7 +18,7 @@
         </b-collapse>
       </b-navbar>
     </div>
-    <br/>
+    <br />
     <div>
       <h2>Add Blog Details</h2>
       <hr />
@@ -71,13 +69,13 @@
           <b-button type="submit" variant="primary" class="mr-2">Submit</b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
         </b-form>
-           <b-spinner
-              class="m-3"
-              variant="info"
-              style="width: 2rem; height: 2rem;"
-              label="Large Spinner"
-              v-show="showspinner"
-            ></b-spinner>
+        <b-spinner
+          class="m-3"
+          variant="info"
+          style="width: 2rem; height: 2rem;"
+          label="Large Spinner"
+          v-show="showspinner"
+        ></b-spinner>
       </b-container>
     </div>
   </div>
@@ -106,27 +104,30 @@ export default {
   },
   mounted: async function() {
     if (window.ethereum) {
-        web3 = new Web3(ethereum);
-        try {
-          await ethereum.enable();
-        } catch (error) {
-          this.$bvToast.toast("Error while getting permission", {
-          title: "Error",
-          toaster: "b-toaster-top-right",
-          variant: "danger",
-          solid: true
-        });
-        }
-      } else if (window.web3) {
-        web3 = new Web3(web3.currentProvider);
-      } else {
-        this.$bvToast.toast("Non-Ethereum browser detected. You should consider trying MetaMask!", {
+      web3 = new Web3(ethereum);
+      try {
+        await ethereum.enable();
+      } catch (error) {
+        this.$bvToast.toast("Error while getting permission", {
           title: "Error",
           toaster: "b-toaster-top-right",
           variant: "danger",
           solid: true
         });
       }
+    } else if (window.web3) {
+      web3 = new Web3(web3.currentProvider);
+    } else {
+      this.$bvToast.toast(
+        "Non-Ethereum browser detected. You should consider trying MetaMask!",
+        {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        }
+      );
+    }
 
     this.form.author = ethereum.selectedAddress;
     blogBackend = new BlogBackend(
@@ -138,7 +139,7 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      this.showspinner=true;
+      this.showspinner = true;
       var that = this;
       fetch("http://192.168.29.2:5000/posts", {
         method: "POST",
@@ -160,15 +161,16 @@ export default {
         })
         .then(function(result) {
           that.showspinner = false;
-          that.$router.push('BlogPosts');
-        }).catch(function(error){
+          that.$router.push("BlogPosts");
+        })
+        .catch(function(error) {
           that.$bvToast.toast("Unable to add the blog content!", {
-          title: "Error",
-          toaster: "b-toaster-top-right",
-          variant: "danger",
-          solid: true
-        });
-        that.showspinner = false;
+            title: "Error",
+            toaster: "b-toaster-top-right",
+            variant: "danger",
+            solid: true
+          });
+          that.showspinner = false;
         });
     },
     onReset(evt) {

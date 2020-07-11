@@ -19,10 +19,10 @@
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
-    </div> 
+    </div>
     <br />
-     <h2>Profile Details</h2>
-      <hr/>
+    <h2>Profile Details</h2>
+    <hr />
     <b-container>
       <b-row>
         <b-col></b-col>
@@ -175,8 +175,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import navbar from "@/components/Navbar.vue";
 import Web3 from "web3";
 import TokenBackend from "../../script/backend/token";
 import ContractDetails from "../static/ABI/master";
@@ -196,32 +194,32 @@ export default {
       toAddress: ""
     };
   },
-  components: {
-    navbar
-  },
   async mounted() {
     if (window.ethereum) {
-        web3 = new Web3(ethereum);
-        try {
-          await ethereum.enable();
-        } catch (error) {
-          this.$bvToast.toast("Error while getting permission", {
-          title: "Error",
-          toaster: "b-toaster-top-right",
-          variant: "danger",
-          solid: true
-        });
-        }
-      } else if (window.web3) {
-        web3 = new Web3(web3.currentProvider);
-      } else {
-        this.$bvToast.toast("Non-Ethereum browser detected. You should consider trying MetaMask!", {
+      web3 = new Web3(ethereum);
+      try {
+        await ethereum.enable();
+      } catch (error) {
+        this.$bvToast.toast("Error while getting permission", {
           title: "Error",
           toaster: "b-toaster-top-right",
           variant: "danger",
           solid: true
         });
       }
+    } else if (window.web3) {
+      web3 = new Web3(web3.currentProvider);
+    } else {
+      this.$bvToast.toast(
+        "Non-Ethereum browser detected. You should consider trying MetaMask!",
+        {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        }
+      );
+    }
 
     this.profileId = ethereum.selectedAddress;
     tokenBackend = new TokenBackend(
@@ -240,9 +238,9 @@ export default {
     this.redeemTime = await subcriptionBackend.getRedeemTime(
       ethereum.selectedAddress
     );
-    if(this.redeemTime != 0){
+    if (this.redeemTime != 0) {
       const unixTimestamp = this.redeemTime;
-      const milliseconds = unixTimestamp * 1000; 
+      const milliseconds = unixTimestamp * 1000;
       const dateObject = new Date(milliseconds);
       this.redeemTime = dateObject.toLocaleString();
     }
@@ -257,11 +255,11 @@ export default {
         if (result) {
         } else {
           this.$bvToast.toast("Adding Subscription Failed", {
-          title: "Error",
-          toaster: "b-toaster-top-right",
-          variant: "danger",
-          solid: true
-        });
+            title: "Error",
+            toaster: "b-toaster-top-right",
+            variant: "danger",
+            solid: true
+          });
         }
         this.showspinner = false;
         window.location.reload();
@@ -273,7 +271,7 @@ export default {
           solid: true
         });
         this.showspinner = false;
-      } 
+      }
     },
     onRevoke: async function() {
       this.revokespinner = true;
@@ -284,11 +282,11 @@ export default {
         if (result) {
         } else {
           this.$bvToast.toast("Revoking Subscription Failed!", {
-          title: "Error",
-          toaster: "b-toaster-top-right",
-          variant: "danger",
-          solid: true
-        });
+            title: "Error",
+            toaster: "b-toaster-top-right",
+            variant: "danger",
+            solid: true
+          });
         }
         this.revokespinner = false;
         window.location.reload();
@@ -300,20 +298,24 @@ export default {
           solid: true
         });
         this.revokespinner = false;
-      } 
+      }
     },
     onTransfer: async function() {
       this.transferspinner = true;
       try {
-        const result = await tokenBackend.transfer(ethereum.selectedAddress, this.toAddress, parseInt(this.subscriptionId));
+        const result = await tokenBackend.transfer(
+          ethereum.selectedAddress,
+          this.toAddress,
+          parseInt(this.subscriptionId)
+        );
         if (result) {
         } else {
           this.$bvToast.toast("Transfering Subscription Failed", {
-          title: "Error",
-          toaster: "b-toaster-top-right",
-          variant: "danger",
-          solid: true
-        });
+            title: "Error",
+            toaster: "b-toaster-top-right",
+            variant: "danger",
+            solid: true
+          });
         }
         this.transferspinner = false;
         window.location.reload();

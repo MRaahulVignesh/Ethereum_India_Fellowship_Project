@@ -15,35 +15,6 @@ class Owner {
         this.erc20Instance = new this.web3.eth.Contract(daiAbi, erc20TokenAddress);
     }
 
-    // //receiveFunds(uint tokens) public returns(uint)
-    // async receiveFunds(_tokens, _from) {
-    //     var that = this;
-    //     try {
-    //         this.erc20Instance.methods.approve(this.contractAddress, _tokens).send({ from: _from })
-    //         .then(async function (instance) {
-    //             const receipt = await that.contractInstance.methods.receiveFunds(_tokens).send({ from: _from });
-    //             return await receipt;
-    //         }).catch(function (err) {
-    //             console.log(err);
-    //             return 200;
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //         return 202;
-    //     }
-    // }
-
-    //redeemCErc20Tokens(uint256 _amount) public returns (uint)
-    // async redeemCErc20Tokens(_tokens, _from) {
-    //     try {
-    //         const receipt = await this.contractInstance.methods.redeemCErc20Tokens(_tokens).send({ from: _from });
-    //         return receipt;
-    //     } catch (e) {
-    //         console.log(e);
-    //         return false;
-    //     }
-    // }
-
     //transferToOwner(uint _amount) public onlyOwner returns (uint)
     async transferOwnerFunds(_tokens, _from) {
         try {
@@ -66,14 +37,12 @@ class Owner {
         }
     }
 
-    async test(_from){
+    async test(_from) {
         const hello = await this.erc20Instance.methods.approve(process.env.MasterAddress, "10000000000000000000").send({ from: _from });
         return hello;
     }
 }
 
-var finance = new Owner(contractJSON2.abi, process.env.MasterAddress, config.networks.kovan.provider);
-finance.test("0x60321f75FF8AEDc36d214B1190Eac7a80C28C15b").then(console.log);
 module.exports = Owner;
 
-   
+

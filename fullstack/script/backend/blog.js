@@ -45,7 +45,7 @@ class QueryBlog {
     async addValidityTag(blogData) {
 
         const updateData = [];
-        for(var i=0; i<blogData.length; i++) {
+        for (var i = 0; i < blogData.length; i++) {
             var data = blogData[i];
             data._id = data._id.toString();
             data = JSON.parse(JSON.stringify(data));

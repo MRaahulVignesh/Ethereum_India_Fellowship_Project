@@ -5,37 +5,37 @@ const _Blog = require('./models/blog');
 router.post('/', async (req, res) => {
     const temp = new _Blog({
         title: req.body.title,
-        tags: req.body.tags, 
+        tags: req.body.tags,
         category: req.body.category,
         content: req.body.content,
         author: req.body.author
     });
-    try{
+    try {
         const savedPost = await temp.save();
-        res.json({result: savedPost})  
-    } catch(err) {
+        res.json({ result: savedPost })
+    } catch (err) {
         console.log(err);
-        res.status(404).json({message: "cannot add the data"});
+        res.status(404).json({ message: "cannot add the data" });
     }
 });
 
 router.get('/', async (req, res) => {
-    try{
+    try {
         var blogs = await _Blog.find();
         res.json(blogs);
-    } catch(err){
-        res.status(404).json({message: "cannot get the data"});
+    } catch (err) {
+        res.status(404).json({ message: "cannot get the data" });
     }
 });
 
 router.get('/id/:id', async (req, res) => {
-    try{
-        var blogs = await _Blog.find({_id: req.params.id});
+    try {
+        var blogs = await _Blog.find({ _id: req.params.id });
         res.json(blogs);
-        
-    } catch(err){
+
+    } catch (err) {
         console.log(err);
-        res.status(404).json({message: "cannot get the data"});
+        res.status(404).json({ message: "cannot get the data" });
     }
 });
 

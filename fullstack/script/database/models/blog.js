@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
- 
+
 const PostSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -8,7 +8,7 @@ const PostSchema = new mongoose.Schema({
     tags: {
         type: Array,
         required: false
-    }, 
+    },
     category: {
         type: String,
         required: true
@@ -25,7 +25,7 @@ const PostSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-}, {versionKey: false});
- 
+}, { versionKey: false });
+
 const Post = mongoose.model('posts', PostSchema);
 module.exports = Post;

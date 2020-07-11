@@ -3,18 +3,18 @@ const Hasher = require('./hasher');
 
 class Login {
 
-    constructor(contractAbi, contractAddress, web3){
+    constructor(contractAbi, contractAddress, web3) {
         this.web3 = web3;
         this.contractInstance = new this.web3.eth.Contract(contractAbi, contractAddress);
         this.hasher = new Hasher(this.web3);
     }
 
     //checkValidUser(address publicKey)
-    async checkValidUser(_publicKey){
-        try{
-            const receipt = await this.contractInstance.methods.checkValidUser(_publicKey).call({from: _publicKey});
+    async checkValidUser(_publicKey) {
+        try {
+            const receipt = await this.contractInstance.methods.checkValidUser(_publicKey).call({ from: _publicKey });
             return receipt;
-        }catch(e){
+        } catch (e) {
             console.log(e);
             return false;
         }
@@ -22,10 +22,10 @@ class Login {
 
     //createUser()
     async createUser(fromAddress) {
-        try{
-            const result = await this.contractInstance.methods.createUser().send({from: fromAddress});
+        try {
+            const result = await this.contractInstance.methods.createUser().send({ from: fromAddress });
             return result;
-        }catch(e){
+        } catch (e) {
             console.log(e);
             return false;
         }
@@ -33,22 +33,22 @@ class Login {
 
     //getRandom()
     async getRandom(fromAddress) {
-        try{
-            const result = await this.contractInstance.methods.getRandom().call({from: fromAddress});
+        try {
+            const result = await this.contractInstance.methods.getRandom().call({ from: fromAddress });
             return result;
-        }catch(e){
+        } catch (e) {
             console.log(e);
             return false;
         }
     }
 
     //authenticate(bytes32 hash, uint8 v, bytes32 r, bytes32 s)
-    async authenticate(_hash, _sig, _fromAddress){
-        try{
+    async authenticate(_hash, _sig, _fromAddress) {
+        try {
             const splitSignature = this.splitSignature(_sig);
-            const result = await this.contractInstance.methods.authenticate(_hash, splitSignature.v, splitSignature.r, splitSignature.s).call({from: _fromAddress});
+            const result = await this.contractInstance.methods.authenticate(_hash, splitSignature.v, splitSignature.r, splitSignature.s).call({ from: _fromAddress });
             return result;
-        }catch(e){
+        } catch (e) {
             console.log(e);
             return false;
         }
@@ -63,7 +63,8 @@ class Login {
         return result;
     }
 
-    async oneClickLogin(fromAddress){
+    //Helper oneClickLogin function
+    async oneClickLogin(fromAddress) {
         try {
             const result = await this.checkValidUser(fromAddress);
             if (result) {
@@ -78,9 +79,9 @@ class Login {
                 }
                 catch (error) {
                     console.log(error);
-                    return {resultCode: 3, message: "error occured during login transaction" };
+                    return { resultCode: 3, message: "error occured during login transaction" };
                 }
-    
+
             }
             else {
                 try {
@@ -92,29 +93,29 @@ class Login {
                                 return { resultCode: 0, message: "user logged in" };
                             }
                             else {
-                                return{ resultCode: 2, message: "Unable to login user. authentication failed" };
+                                return { resultCode: 2, message: "Unable to login user. authentication failed" };
                             }
                         }
                         catch (error) {
                             console.log(error);
-                            return{ resultCode: 3, message: "error occured during login transaction" };
+                            return { resultCode: 3, message: "error occured during login transaction" };
                         }
-    
+
                     }
                     else {
-                        return{ resultCode: 4, message: "Unable to create user. authentication failed" };
+                        return { resultCode: 4, message: "Unable to create user. authentication failed" };
                     }
                 }
                 catch (error) {
                     console.log(error);
-                    return{ resultCode: 5, message: "error occured during user creation process" };
+                    return { resultCode: 5, message: "error occured during user creation process" };
                 }
-    
+
             }
         }
         catch (error) {
             console.log(error);
-            return {resultCode: 1, message: "error occured during user validation process" };
+            return { resultCode: 1, message: "error occured during user validation process" };
         }
     }
 
@@ -124,7 +125,7 @@ class Login {
         var r = `0x${_sig.slice(0, 64)}`;
         var s = `0x${_sig.slice(64, 128)}`;
         var v = this.web3.utils.toDecimal(`0x${_sig.slice(128, 130)}`);
-        const splitObject = {v:v,r:r,s:s};
+        const splitObject = { v: v, r: r, s: s };
         return splitObject;
 
     }

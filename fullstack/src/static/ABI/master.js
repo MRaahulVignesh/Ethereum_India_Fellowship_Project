@@ -1,6 +1,6 @@
-module.exports = { 
-   contractAddress: "0xf02D1e917504D373D59C136d49DE67d21De1d135",
-   abi:[
+module.exports = {
+  contractAddress: "0xf02D1e917504D373D59C136d49DE67d21De1d135",
+  abi: [
     {
       "anonymous": false,
       "inputs": [
@@ -624,4 +624,5 @@ module.exports = {
       "stateMutability": "nonpayable",
       "type": "function"
     }
-  ]};
+  ]
+};
