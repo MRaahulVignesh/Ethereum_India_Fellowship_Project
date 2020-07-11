@@ -20,20 +20,20 @@ Firstly, clone the project into your desired directory. Next, open the terminal 
 
 ### Screen Shots
 
-![](images/Screenshot1.png)
+![](images/Screenshot-1.png)
 
 
-![](images/Screenshot2.png)
+![](images/Screenshot-2.png)
 
 
-![](images/Screenshot3.png)
+![](images/Screenshot-3.png)
 
 
-![](images/Screenshot4.png)
+![](images/Screenshot-4.png)
 
 
-![](images/Screenshot5.png)
+![](images/Screenshot-5.png)
 
 
-![](images/Screenshot6.png)
+![](images/Screenshot-6.png)
 
