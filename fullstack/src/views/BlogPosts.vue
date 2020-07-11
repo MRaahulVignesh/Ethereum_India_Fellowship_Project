@@ -17,14 +17,16 @@
 
       <b-collapse id="navbar-toggle-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item href="/about">Blog Posts</b-nav-item>
+          <b-nav-item href="/profile">Profile</b-nav-item>
           <b-nav-item href="/addblog">Add Blog</b-nav-item>
           <b-nav-item href="/">Sign Out</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
   </div>
-    <br/>
+   <br/>
+      <h2> Blog Posts</h2>
+    <hr/>
     <b-container>
     <div v-if="blogPosts.length">
       <b-row>
@@ -75,29 +77,45 @@ export default {
     }
   },
    async mounted() {
-   if (window.ethereum) {
-      web3 = new Web3(ethereum);
-      try {
-        await ethereum.enable();
-      } catch (error) {
-        console.log("error while getting permission");
+  if (window.ethereum) {
+        web3 = new Web3(ethereum);
+        try {
+          await ethereum.enable();
+        } catch (error) {
+          this.$bvToast.toast("Error while getting permission", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
+        }
+      } else if (window.web3) {
+        web3 = new Web3(web3.currentProvider);
+      } else {
+        this.$bvToast.toast("Non-Ethereum browser detected. You should consider trying MetaMask!", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
       }
-    } else if (window.web3) {
-      web3 = new Web3(web3.currentProvider);
-    } else {
-      console.log(
-        "Non-Ethereum browser detected. You should consider trying MetaMask!"
-      );
-    }
 
     blogBackend = new BlogBackend(ContractDetails.abi, ContractDetails.contractAddress, web3);
     var that = this;
-    fetch("http://192.168.29.2:5000/posts")
+
+      fetch("http://192.168.29.2:5000/posts")
     .then(response => response.json())
     .then(async function(result) {
         const verifiedResult = await blogBackend.addValidityTag(result);
         that.blogPosts_actual = verifiedResult;
         that.blogPosts = verifiedResult;
+    }).catch(function(error){
+        that.$bvToast.toast("Unable to fetch posts. please check if API is connected", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
     });
   },
   watch: {

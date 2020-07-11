@@ -1,8 +1,5 @@
 const Web3 = require('web3');
-// const contractJSON = require('../../build/contracts/Master.json');
 const Hasher = require('./hasher');
-// require('dotenv').config();
-// const config = require('../../truffle-config');
 
 class Login {
 
@@ -133,10 +130,5 @@ class Login {
     }
 
 }
-// var login = new Login(contractJSON.abi, process.env.MasterAddress, config.networks.kovan.provider);
-//login.createUser("0x3fe833c1973931BE25b7C2d9BC6FF9324D4f8B0D").then(console.log);
-//login.getRandom("0x60321f75ff8aedc36d214b1190eac7a80c28c15b").then(console.log);
-//login.checkValidUser("0x60321f75ff8aedc36d214b1190eac7a80c28c15b").then(console.log);
-//login.authenticate("0xa6a7704d8b54c1f3b145060566a9bbe657404713cbcfc001356f37e2f326d2a0","0xbeb40273402e8601dd3ff9faca2282baece5d9a7a2d4997c44b7d77e9a7ce42a659fe44cf8fc829a0023d62916a08b592379904b8659a4c91c8894450337d1e21c", "0x60321f75ff8aedc36d214b1190eac7a80c28c15b").then(console.log);
-//login.login("0x60321f75FF8AEDc36d214B1190Eac7a80C28C15b").then(console.log);
+
 module.exports = Login;

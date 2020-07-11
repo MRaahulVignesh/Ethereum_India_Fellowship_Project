@@ -1,5 +1,6 @@
 <template>
   <div>
+     <br/>
     <div v-if="blogData">
       <b-container fluid>
         <b-jumbotron
@@ -15,6 +16,8 @@
             <span class="bg-secondary rounded">{{ ` Author: ${blogData.author} `}}</span> |
             <span class="bg-secondary rounded">{{` Category: ${blogData.category} `}}</span> |
             <span class="bg-secondary rounded">{{` Created: ${blogData.date }`}}</span>
+            <br/>
+            <span class="bg-secondary rounded">{{` Tags: ${getTags() }`}}</span>
           </template>
           <b-badge
             variant="success"
@@ -83,18 +86,28 @@ export default {
   },
   mounted: async function() {
 
-    if (window.ethereum) {
+   if (window.ethereum) {
         web3 = new Web3(ethereum);
-      try {
-        await ethereum.enable();
-      } catch (error) {
-        console.log("error while getting permission");
-      }
-    } else if (window.web3) {
+        try {
+          await ethereum.enable();
+        } catch (error) {
+          this.$bvToast.toast("Error while getting permission", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
+        }
+      } else if (window.web3) {
         web3 = new Web3(web3.currentProvider);
-    } else {
-      console.log("Non-Ethereum browser detected. You should consider trying MetaMask!");
-    }
+      } else {
+        this.$bvToast.toast("Non-Ethereum browser detected. You should consider trying MetaMask!", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
+      }
 
     blogBackend = new BlogBackend(blogContract.abi, blogContract.contractAddress, web3);
     subscriptionBackend = new SubscriptionBackend(masterContract.abi, masterContract.contractAddress, web3);
@@ -111,13 +124,14 @@ export default {
         this.subcribed = false;
     }
 
-    var that = this;
+      var that = this;
     fetch("http://192.168.29.2:5000/posts/id/" + this.$route.params.id)
       .then(response => response.json())
       .then(async function(result){
         const verifiedResult = await blogBackend.addValidityTag(result);
         that.blogData = verifiedResult[0];
       });
+
   },
   methods: {
     onSubscribe: async function() {
@@ -125,18 +139,31 @@ export default {
 
       try {
         const result = await subscriptionBackend.addSubscription(ethereum.selectedAddress);
-
         if (result) {
-          console.log(result);
+          //console.log(result);
         } else {
-          console.log(result);
+          this.$bvToast.toast("Unable to add subscription", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
         }
-      } catch (error) {
-        console.log(error);
-      } finally {
         this.showspinner = false;
         window.location.reload();
-      }
+      } catch (error) {
+        console.log(error);
+        this.$bvToast.toast("Unable to add subscription", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
+        this.showspinner = false;
+      } 
+    },
+    getTags: function(){
+      return this.blogData.tags.map(blog => "#"+blog);
     }
   }
 };

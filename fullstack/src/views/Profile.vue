@@ -13,14 +13,16 @@
 
         <b-collapse id="navbar-toggle-collapse" is-nav>
           <b-navbar-nav class="ml-auto">
-            <b-nav-item href="/about">Blog Posts</b-nav-item>
+            <b-nav-item href="/blogposts">Blog Posts</b-nav-item>
             <b-nav-item href="/addblog">Add Blog</b-nav-item>
             <b-nav-item href="/">Sign Out</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
-    </div>
+    </div> 
     <br />
+     <h2>Profile Details</h2>
+      <hr/>
     <b-container>
       <b-row>
         <b-col></b-col>
@@ -139,7 +141,7 @@
             <b-form-input
               id="input-4"
               required
-              class="text-center mr-sm-2"
+              class="text-center"
               placeholder="Receiver Profile Id"
               v-model="toAddress"
               description="profile id refers to public key"
@@ -197,21 +199,30 @@ export default {
   components: {
     navbar
   },
-  async created() {
+  async mounted() {
     if (window.ethereum) {
         web3 = new Web3(ethereum);
-      try {
-        await ethereum.enable();
-      } catch (error) {
-        console.log("error while getting permission");
-      }
-    } else if (window.web3) {
+        try {
+          await ethereum.enable();
+        } catch (error) {
+          this.$bvToast.toast("Error while getting permission", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
+        }
+      } else if (window.web3) {
         web3 = new Web3(web3.currentProvider);
-    } else {
-      console.log(
-        "Non-Ethereum browser detected. You should consider trying MetaMask!"
-      );
-    }
+      } else {
+        this.$bvToast.toast("Non-Ethereum browser detected. You should consider trying MetaMask!", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
+      }
+
     this.profileId = ethereum.selectedAddress;
     tokenBackend = new TokenBackend(
       ContractDetails.abi,
@@ -239,24 +250,30 @@ export default {
   methods: {
     onSubscribe: async function() {
       this.showspinner = true;
-      console.log(web3);
       try {
         const result = await subcriptionBackend.addSubscription(
           ethereum.selectedAddress
         );
         if (result) {
-          console.log(result);
         } else {
-          console.log(result);
-          // res.status(404).json({resultCode: 2, message: "adding subscription failed"});
+          this.$bvToast.toast("Adding Subscription Failed", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
         }
-      } catch (error) {
-        console.log(error);
-        // res.status(404).json({resultCode: 1, message: "adding subscription failed"});
-      } finally {
         this.showspinner = false;
         window.location.reload();
-      }
+      } catch (error) {
+        this.$bvToast.toast("Adding Subscription Failed!", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
+        this.showspinner = false;
+      } 
     },
     onRevoke: async function() {
       this.revokespinner = true;
@@ -265,35 +282,49 @@ export default {
           ethereum.selectedAddress
         );
         if (result) {
-          console.log("revoked subscription");
         } else {
-          console.log(result);
-          // res.status(404).json({resultCode: 2, message: "adding subscription failed"});
+          this.$bvToast.toast("Revoking Subscription Failed!", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
         }
-      } catch (error) {
-        console.log(error);
-        // res.status(404).json({resultCode: 1, message: "adding subscription failed"});
-      } finally {
         this.revokespinner = false;
         window.location.reload();
-      }
+      } catch (error) {
+        this.$bvToast.toast("Revoking Subscription Failed!", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
+        this.revokespinner = false;
+      } 
     },
     onTransfer: async function() {
       this.transferspinner = true;
       try {
         const result = await tokenBackend.transfer(ethereum.selectedAddress, this.toAddress, parseInt(this.subscriptionId));
         if (result) {
-          console.log("subscription transfered");
         } else {
-          console.log(result);
-          // res.status(404).json({resultCode: 2, message: "adding subscription failed"});
+          this.$bvToast.toast("Transfering Subscription Failed", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
         }
-      } catch (error) {
-        console.log(error);
-        // res.status(404).json({resultCode: 1, message: "adding subscription failed"});
-      } finally {
         this.transferspinner = false;
         window.location.reload();
+      } catch (error) {
+        this.$bvToast.toast("Transfering Subscription Failed", {
+          title: "Error",
+          toaster: "b-toaster-top-right",
+          variant: "danger",
+          solid: true
+        });
+        this.transferspinner = false;
       }
     }
   }

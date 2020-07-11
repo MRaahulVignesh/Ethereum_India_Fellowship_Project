@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import About from '../views/About.vue'
+import BlogPosts from '../views/BlogPosts.vue'
 import Blog from '../views/Blog.vue'
 import AddBlog from '../views/AddBlog.vue'
 import Profile from '../views/Profile.vue'
@@ -15,9 +15,9 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    component: About
+    path: '/blogposts',
+    name: 'BlogPosts',
+    component: BlogPosts
   },
   {
     path: '/blog/:id',
