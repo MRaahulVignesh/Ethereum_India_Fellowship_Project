@@ -23,6 +23,9 @@ Firstly, clone the project into your desired directory. Next, open the terminal 
 ![](images/Screenshot-1.png)
 
 
+![](images/Screenshot-6.png)
+
+
 ![](images/Screenshot-2.png)
 
 
@@ -33,7 +36,4 @@ Firstly, clone the project into your desired directory. Next, open the terminal 
 
 
 ![](images/Screenshot-5.png)
-
-
-![](images/Screenshot-6.png)
 
