@@ -1,5 +1,7 @@
 # Ethereum_India_Fellowship_Project
 
+This project was created as a part of the Ethereum India Fellowship 2020 program, organized by Devfolio. The project aimed to design a decentralized and blockchain-based platform for publishing blogs, articles, and many more. Although the basis of the project was mainly centered around creating a decentralized publishing application, several novel innovations like subscription tokens, verifiability tags were brought into the paradigm. The following sections serve to explain the project in detail.
+
 ## DEXTER - A DECENTRALIZED PUBLISHING PLATFORM
 
 ### Problem Solved: 
