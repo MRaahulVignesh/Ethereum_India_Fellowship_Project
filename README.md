@@ -18,6 +18,19 @@ Firstly, clone the project into your desired directory. Next, open the terminal 
 - The login function for the application has been configured using Metamask. Therefore, the browser should have this installed feature to perform the login action. To add Metamask to your browser, follow the below link: https://medium.com/@followcoin/how-to-install-metamask-88cbdabc1d28
 - Once you have Metamask installed, Click the login and explore the application. 
 
+### Technologies Used & Keywords
+
+1. Ethereum Solidity
+2. NodeJS
+3. VueJS
+4. MongoDB
+5. MakerDAO
+6. Compound Protocol
+7. ExpressJS
+8. Web3JS
+9. ERC-721 Standars
+10. Bootstrap-vue
+
 ### Screen Shots
 
 1. Home Screen
